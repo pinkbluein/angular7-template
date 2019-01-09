@@ -18,9 +18,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     $doc: any = null;
 
     constructor(public menu: MenuService, public settings: SettingsService, public injector: Injector) {
-
         this.menuItems = menu.getMenu();
-
     }
 
     ngOnInit() {

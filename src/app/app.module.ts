@@ -10,7 +10,12 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
-import { RoutesModule } from './routes/routes.module';
+import {RouterModule} from '@angular/router';
+import {AppRoutes} from './app.routing';
+import {LoginService} from './services/login.service';
+import {LoginGuard} from './guards/login.guard';
+import {AuthGuard} from './guards/auth.guard';
+import {AuthLayoutComponent} from './layout/auth/auth-layout.component';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
@@ -19,7 +24,8 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        AuthLayoutComponent
     ],
     imports: [
         HttpClientModule,
@@ -27,7 +33,7 @@ export function createTranslateLoader(http: HttpClient) {
         CoreModule,
         LayoutModule,
         SharedModule.forRoot(),
-        RoutesModule,
+        RouterModule.forRoot(AppRoutes, {useHash : true}),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -36,7 +42,11 @@ export function createTranslateLoader(http: HttpClient) {
             }
         })
     ],
-    providers: [],
+    providers: [
+      LoginService,
+      LoginGuard,
+      AuthGuard
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
