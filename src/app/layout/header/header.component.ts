@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     menuItems = []; // for horizontal layout
 
     isNavSearchVisible: boolean;
-    @ViewChild('fsbutton') fsbutton;  // the fullscreen button
+    @ViewChild('fsbutton', {static: false}) fsbutton;  // the fullscreen button
 
     constructor(public menu: MenuService, public userblockService: UserblockService, public settings: SettingsService,
                 private loginService: LoginService, private router: Router) {

@@ -525,8 +525,8 @@ export class TableComponent implements OnInit {
     { name: 'Gender' }
   ];
 
-  @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild('myTable') tableExp: any;
+  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+  @ViewChild('myTable', {static: false}) tableExp: any;
 
   constructor() {
     this.temp = _clone(this.rows);
