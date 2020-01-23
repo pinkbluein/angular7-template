@@ -22,8 +22,5 @@ export const AppRoutes = [
     ],
     canActivate: [AuthGuard]
   },
-
-  // Not found
   { path: '**', redirectTo: 'pages' }
-
 ];

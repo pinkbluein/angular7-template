@@ -32,6 +32,7 @@
                             </div>
                         </div>
                         <div class="text-danger" *ngIf="valForm.controls['password'].hasError('required') && (valForm.controls['password'].dirty || valForm.controls['password'].touched)">This field is required</div>
+                      <div *ngIf="errorMessage" class="text-danger" style="margin-top: 10px">{{errorMessage}}</div>
                     </div>
                     <button class="btn btn-block btn-primary mt-3" type="submit">Login</button>
                 </form>

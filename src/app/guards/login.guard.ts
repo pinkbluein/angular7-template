@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {LoginService} from '../services/login.service';
+import {DataService} from '../services/data.service';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
 
-  constructor(private router: Router, private loginService : LoginService) { }
+  constructor(private dataService: DataService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!localStorage.getItem('token')) {
+    if (!this.dataService.getUser() || !this.dataService.getToken()) {
       return true;
     }
 
-    this.router.navigate(['/'], { queryParams: {}});
+    this.router.navigate([''], { queryParams: {}});
     return false;
   }
 }

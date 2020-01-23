@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CustomValidators } from 'ng2-validation';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {LoginService} from '../../services/login.service';
+import {DataService} from '../../services/data.service';
 
 @Component({
     selector: 'app-login',
@@ -11,8 +12,9 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
     valForm: FormGroup;
+    errorMessage = null;
 
-    constructor(fb: FormBuilder, private router: Router) {
+    constructor(fb: FormBuilder, private router: Router, private loginService: LoginService, private dataService: DataService) {
 
         this.valForm = fb.group({
             'email': [null, Validators.required],
@@ -23,15 +25,26 @@ export class LoginComponent implements OnInit {
 
     submitForm($ev, value: any) {
         $ev.preventDefault();
-        localStorage.setItem('token' , 'Sample Token');
         this.router.navigate(['/']);
-        // for (let c in this.valForm.controls) {
-        //     this.valForm.controls[c].markAsTouched();
-        // }
-        // if (this.valForm.valid) {
-        //     console.log('Valid!');
-        //     console.log(value);
-        // }
+        // tslint:disable-next-line:forin
+        for (const c in this.valForm.controls) {
+            this.valForm.controls[c].markAsTouched();
+        }
+        if (this.valForm.valid) {
+            this.errorMessage = null;
+            this.loginService.login(value.email, value.password).subscribe(response => {
+                localStorage.setItem('user', JSON.stringify(response['user']));
+                localStorage.setItem('token', response['token']);
+                this.router.navigate(['/']);
+            }, error => {
+                try {
+                    console.log(error.json());
+                    this.errorMessage = error.json().error[0];
+                } catch (e) {
+                    this.errorMessage = 'Network Problem';
+                }
+            });
+        }
     }
 
     ngOnInit() {

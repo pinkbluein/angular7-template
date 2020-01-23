@@ -8,11 +8,7 @@ import {element} from 'protractor';
 })
 
 export class DashboardComponent {
-
-
   constructor() {
-
-
   }
 }
 
